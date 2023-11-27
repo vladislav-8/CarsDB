@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/searchFragment">
+
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.practicum.carsdb.feature.presentation.fragments.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_carInformationFragment"
+            app:destination="@id/carInformationFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_newCarFragment"
+            app:destination="@id/newCarFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_popUpFragment"
+            app:destination="@id/popUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/carInformationFragment"
+        android:name="com.practicum.carsdb.feature.presentation.fragments.CarInformationFragment"
+        android:label="fragment_car_information"
+        tools:layout="@layout/fragment_car_information" />
+    <fragment
+        android:id="@+id/newCarFragment"
+        android:name="com.practicum.carsdb.feature.presentation.fragments.NewCarFragment"
+        android:label="fragment_new_car"
+        tools:layout="@layout/fragment_new_car" />
+    <fragment
+        android:id="@+id/popUpFragment"
+        android:name="com.practicum.carsdb.feature.presentation.fragments.PopUpFragment"
+        android:label="fragment_pop_up"
+        tools:layout="@layout/fragment_pop_up" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.practicum.carsdb.feature.presentation.fragments.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+</navigation>
