@@ -23,7 +23,7 @@ class CarViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         name.text = model.name
         year.text = model.year.toString()
         engine.text = model.engine.toString()
-        //date.text = SimpleDateFormat("MM-dd-yyyy", Locale.getDefault()).format(model.date)
+        date.text = model.date
 
         Glide.with(itemView.context)
             .load(R.drawable.ic_honda)

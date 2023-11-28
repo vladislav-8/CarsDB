@@ -11,9 +11,9 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginStart="56dp"
-        android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/date"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/name"
         tools:src="@tools:sample/avatars" />
 
     <TextView
@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="parent" />

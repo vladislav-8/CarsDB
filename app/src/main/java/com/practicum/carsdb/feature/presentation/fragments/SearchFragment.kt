@@ -51,11 +51,11 @@ class SearchFragment : Fragment() {
 
     private fun addDbItems() {
         val car0: Car =
-            Car(name = "Honda Fit", R.drawable.ic_honda.toString(), 2021, 1.3f, "11-09-2021")
+            Car(name = "Honda Fit", R.drawable.ic_honda.toString(), 2021, 1.3f, "11/09/2021")
         val car1: Car =
-            Car(name = "Honda Jazz", R.drawable.ic_honda.toString(), 2022, 1.5f, "11-09-2022")
+            Car(name = "Honda Jazz", R.drawable.ic_honda.toString(), 2022, 1.5f, "11/09/2022")
         val car2: Car =
-            Car(name = "Honda Accord", R.drawable.ic_honda.toString(), 2023, 2.0f, "11-09-2023")
+            Car(name = "Honda Accord", R.drawable.ic_honda.toString(), 2023, 2.0f, "11/09/2023")
         viewModel.addCar(car2)
         viewModel.addCar(car1)
         viewModel.addCar(car0)

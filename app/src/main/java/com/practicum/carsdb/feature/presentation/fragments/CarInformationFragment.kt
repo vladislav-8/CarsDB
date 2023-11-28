@@ -43,6 +43,7 @@ class CarInformationFragment : Fragment() {
             name.text = "Car: ${car.name}"
             year.text = "Year: ${car.year}"
             engine.text = "Engine: ${car.engine}"
+            date.text = "Date: ${car.date}"
 
         }
     }
