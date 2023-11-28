@@ -11,6 +11,11 @@ class NewCarViewModel(
     private val carRepository: CarRepository
 ) : ViewModel() {
 
+    var day = 0
+    var month = 0
+    var year = 0
+    var cleanDate = ""
+
     fun addCar(car: Car) {
         viewModelScope.launch(Dispatchers.IO) {
             carRepository.addCar(car)

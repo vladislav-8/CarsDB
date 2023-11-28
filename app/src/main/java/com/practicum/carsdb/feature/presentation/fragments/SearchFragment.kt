@@ -56,9 +56,15 @@ class SearchFragment : Fragment() {
             Car(name = "Honda Jazz", R.drawable.ic_honda.toString(), 2022, 1.5f, "11/09/2022")
         val car2: Car =
             Car(name = "Honda Accord", R.drawable.ic_honda.toString(), 2023, 2.0f, "11/09/2023")
-        viewModel.addCar(car2)
-        viewModel.addCar(car1)
+        val car3: Car =
+            Car(name = "Honda Civic", R.drawable.ic_honda.toString(), 2024, 1.8f, "11/09/2024")
+        val car4: Car =
+            Car(name = "Honda CR-V", R.drawable.ic_honda.toString(), 2025, 2.0f, "11/09/2025")
         viewModel.addCar(car0)
+        viewModel.addCar(car1)
+        viewModel.addCar(car2)
+        viewModel.addCar(car3)
+        viewModel.addCar(car4)
     }
 
     private fun initView() {
@@ -106,8 +112,10 @@ class SearchFragment : Fragment() {
     }
 
     private fun showCarItem(car: Car) {
-        findNavController().navigate(R.id.carInformationFragment,
-            createArgs(car))
+        findNavController().navigate(
+            R.id.carInformationFragment,
+            createArgs(car)
+        )
     }
 
     override fun onDestroyView() {
