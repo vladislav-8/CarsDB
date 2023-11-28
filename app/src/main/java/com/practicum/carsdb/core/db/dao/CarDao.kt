@@ -10,7 +10,7 @@ import com.practicum.carsdb.core.db.entity.CarEntity
 @Dao
 interface CarDao {
 
-    @Insert(entity = CarEntity::class, onConflict = OnConflictStrategy.REPLACE)
+    @Insert(entity = CarEntity::class, onConflict = OnConflictStrategy.IGNORE)
     suspend fun addCar(carEntity: CarEntity)
 
     @Delete

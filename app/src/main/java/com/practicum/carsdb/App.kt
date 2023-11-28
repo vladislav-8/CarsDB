@@ -1,6 +1,7 @@
 package com.practicum.carsdb
 
 import android.app.Application
+import com.practicum.carsdb.core.di.carModule
 import com.practicum.carsdb.core.di.dbModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -18,8 +19,8 @@ class App : Application() {
             modules(
                 listOf(
                     dbModule,
-
-                    )
+                    carModule
+                )
             )
         }
     }
