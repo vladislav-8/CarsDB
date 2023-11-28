@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.room.util.findColumnIndexBySuffix
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.carsdb.R
@@ -86,6 +87,10 @@ class SearchFragment : Fragment() {
     private fun initButtons() {
         searchBinding.fabAdd.setOnClickListener {
             findNavController().navigate(R.id.newCarFragment)
+        }
+
+        searchBinding.settingsIv.setOnClickListener {
+            findNavController().navigate(R.id.settingsFragment)
         }
     }
 
