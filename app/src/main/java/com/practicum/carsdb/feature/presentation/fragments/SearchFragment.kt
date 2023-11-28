@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.room.util.findColumnIndexBySuffix
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.carsdb.R
@@ -47,6 +48,8 @@ class SearchFragment : Fragment() {
         initButtons()
         initObservers()
         addDbItems()
+
+        PopUpFragment().show(childFragmentManager, TAG_POPUP)
     }
 
     private fun addDbItems() {
@@ -56,9 +59,15 @@ class SearchFragment : Fragment() {
             Car(name = "Honda Jazz", R.drawable.ic_honda.toString(), 2022, 1.5f, "11/09/2022")
         val car2: Car =
             Car(name = "Honda Accord", R.drawable.ic_honda.toString(), 2023, 2.0f, "11/09/2023")
-        viewModel.addCar(car2)
-        viewModel.addCar(car1)
+        val car3: Car =
+            Car(name = "Honda Civic", R.drawable.ic_honda.toString(), 2024, 1.8f, "11/09/2024")
+        val car4: Car =
+            Car(name = "Honda CR-V", R.drawable.ic_honda.toString(), 2025, 2.0f, "11/09/2025")
         viewModel.addCar(car0)
+        viewModel.addCar(car1)
+        viewModel.addCar(car2)
+        viewModel.addCar(car3)
+        viewModel.addCar(car4)
     }
 
     private fun initView() {
@@ -80,6 +89,10 @@ class SearchFragment : Fragment() {
     private fun initButtons() {
         searchBinding.fabAdd.setOnClickListener {
             findNavController().navigate(R.id.newCarFragment)
+        }
+
+        searchBinding.settingsIv.setOnClickListener {
+            findNavController().navigate(R.id.settingsFragment)
         }
     }
 
@@ -106,8 +119,10 @@ class SearchFragment : Fragment() {
     }
 
     private fun showCarItem(car: Car) {
-        findNavController().navigate(R.id.carInformationFragment,
-            createArgs(car))
+        findNavController().navigate(
+            R.id.carInformationFragment,
+            createArgs(car)
+        )
     }
 
     override fun onDestroyView() {
@@ -119,5 +134,7 @@ class SearchFragment : Fragment() {
         fun createArgs(car: Car): Bundle {
             return bundleOf(BUNDLE_KEY to car)
         }
+
+        const val TAG_POPUP = "pop_up"
     }
 }
