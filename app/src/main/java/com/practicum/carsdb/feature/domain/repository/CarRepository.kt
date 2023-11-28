@@ -8,4 +8,6 @@ interface CarRepository {
     suspend fun getAllCars(): Flow<List<Car>>
     suspend fun addCar(car: Car)
     suspend fun deleteCar(car: Car)
+
+    suspend fun saveImageToPrivateStorage(uri: String)
 }
