@@ -26,8 +26,7 @@ class CarViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         //date.text = SimpleDateFormat("MM-dd-yyyy", Locale.getDefault()).format(model.date)
 
         Glide.with(itemView.context)
-            .load(model.imageUri)
-            .placeholder(R.drawable.ic_honda)
+            .load(R.drawable.ic_honda)
             .centerCrop()
             .transform(RoundedCorners(itemView.resources.getDimensionPixelSize(R.dimen.cornerRadius)))
             .into(carImage)
