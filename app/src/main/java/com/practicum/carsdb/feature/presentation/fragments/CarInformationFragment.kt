@@ -36,7 +36,8 @@ class CarInformationFragment : Fragment() {
         carInformationBinding.apply {
             Glide
                 .with(imageView)
-                .load(R.drawable.ic_honda)
+                .load(car.imageUri)
+                .placeholder(R.drawable.ic_honda)
                 .centerCrop()
                 .transform(RoundedCorners(resources.getDimensionPixelSize(R.dimen.cornerRadius)))
                 .into(imageView)
@@ -48,4 +49,8 @@ class CarInformationFragment : Fragment() {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _carInformationBinding = null
+    }
 }

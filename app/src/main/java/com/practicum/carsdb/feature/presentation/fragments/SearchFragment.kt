@@ -120,5 +120,4 @@ class SearchFragment : Fragment() {
             return bundleOf(BUNDLE_KEY to car)
         }
     }
-
 }
