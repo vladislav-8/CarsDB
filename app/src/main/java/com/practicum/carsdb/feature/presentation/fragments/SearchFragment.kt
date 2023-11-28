@@ -1,15 +1,18 @@
 package com.practicum.carsdb.feature.presentation.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.practicum.carsdb.R
+import com.practicum.carsdb.core.diffutil.CarAdapter
 import com.practicum.carsdb.databinding.FragmentSearchBinding
 import com.practicum.carsdb.feature.domain.models.Car
-import com.practicum.carsdb.feature.presentation.adapter.CarAdapter
+import com.practicum.carsdb.feature.presentation.models.CarState
 import com.practicum.carsdb.feature.presentation.viewmodels.SearchViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Locale
@@ -21,7 +24,9 @@ class SearchFragment : Fragment() {
     private val viewModel by viewModel<SearchViewModel>()
 
     private var carList = ArrayList<Car>()
-    val carAdapter = CarAdapter(carList)
+    private val carsAdapter by lazy {
+        CarAdapter({ }, { })
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,12 +40,26 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        addDataToList()
         initView()
+        initButtons()
+        initObservers()
+        addDbItems()
+    }
+
+    private fun addDbItems() {
+        val car0: Car =
+            Car(name = "Honda Fit", R.drawable.ic_honda.toString(), 2021, 1.3f, "11-09-2021")
+        val car1: Car =
+            Car(name = "Honda Jazz", R.drawable.ic_honda.toString(), 2022, 1.5f, "11-09-2022")
+        val car2: Car =
+            Car(name = "Honda Accord", R.drawable.ic_honda.toString(), 2023, 2.0f, "11-09-2023")
+        viewModel.addCar(car2)
+        viewModel.addCar(car1)
+        viewModel.addCar(car0)
     }
 
     private fun initView() {
-        searchBinding.searchRecycler.adapter = carAdapter
+        searchBinding.searchRecycler.adapter = carsAdapter
 
         searchBinding.searchView.setOnQueryTextListener(object :
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
@@ -49,34 +68,38 @@ class SearchFragment : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                filterList(newText)
+                carsAdapter.filter.filter(newText)
                 return true
             }
-
         })
     }
 
-    private fun filterList(query: String?) {
-
-        if (query != null) {
-            val filteredList = ArrayList<Car>()
-            for (i in carList) {
-                if (i.name.lowercase(Locale.ROOT).contains(query)) {
-                    filteredList.add(i)
-                }
-            }
-            if (filteredList.isEmpty()) {
-                Toast.makeText(requireContext(), "No Data found", Toast.LENGTH_SHORT).show()
-            } else {
-                carAdapter.setFilteredList(filteredList)
-            }
+    private fun initButtons() {
+        searchBinding.fabAdd.setOnClickListener {
+            findNavController().navigate(R.id.newCarFragment)
         }
     }
 
-    private fun addDataToList() {
-        carList.add(Car(name = "Toyota Camry", "", 2023, 2.5f, "11.09.01"))
-        carList.add(Car(name = "Honda Accord", "", 2023, 2.5f, "11.09.01"))
-        carList.add(Car(name = "Subaru Levorg", "", 2023, 2.5f, "11.09.01"))
+    private fun initObservers() {
+        viewModel.getAllCars()
+        viewModel.observeState().observe(viewLifecycleOwner) {
+            render(it)
+        }
+    }
+
+    private fun render(state: CarState) {
+        with(searchBinding) {
+            when (state) {
+                is CarState.Content -> {
+                    carsAdapter.clearCars()
+                    carsAdapter.cars = state.cars as MutableList<Car>
+                }
+
+                is CarState.Empty -> {
+
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
