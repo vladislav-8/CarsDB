@@ -48,6 +48,8 @@ class SearchFragment : Fragment() {
         initButtons()
         initObservers()
         addDbItems()
+
+        PopUpFragment().show(childFragmentManager, TAG_POPUP)
     }
 
     private fun addDbItems() {
@@ -132,5 +134,7 @@ class SearchFragment : Fragment() {
         fun createArgs(car: Car): Bundle {
             return bundleOf(BUNDLE_KEY to car)
         }
+
+        const val TAG_POPUP = "pop_up"
     }
 }
