@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.practicum.carsdb.R
 import com.practicum.carsdb.core.utils.isEnabled
 import com.practicum.carsdb.databinding.FragmentSettingsBinding
 import com.practicum.carsdb.feature.presentation.viewmodels.SettingsViewModel
@@ -32,7 +33,7 @@ class SettingsFragment : Fragment() {
         settingsBinding.resetSettingsButton.setOnClickListener {
             viewModel.clearSettings()
             isEnabled = true
-            findNavController().popBackStack()
+            findNavController().navigate(R.id.searchFragment)
         }
     }
 

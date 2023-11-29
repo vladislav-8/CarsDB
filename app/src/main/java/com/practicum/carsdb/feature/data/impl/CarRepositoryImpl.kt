@@ -9,7 +9,9 @@ import androidx.core.net.toUri
 import com.practicum.carsdb.core.db.converters.ConverterDb
 import com.practicum.carsdb.core.db.database.CarDatabase
 import com.practicum.carsdb.core.db.entity.CarEntity
+import com.practicum.carsdb.core.utils.COUNTER
 import com.practicum.carsdb.core.utils.IS_ENABLED
+import com.practicum.carsdb.core.utils.IS_FOLLOW
 import com.practicum.carsdb.core.utils.SP
 import com.practicum.carsdb.feature.domain.models.Car
 import com.practicum.carsdb.feature.domain.repository.CarRepository
@@ -57,23 +59,37 @@ class CarRepositoryImpl(
             .compress(Bitmap.CompressFormat.JPEG, QUALITY_IMAGE, outputStream)
     }
 
-    override fun setInt(key: String?, value: Int) {
+    override fun saveIntCounters(key: String?, value: Int) {
         val prefs: SharedPreferences = context.getSharedPreferences(SP, 0)
         val editor: SharedPreferences.Editor = prefs.edit()
         editor.putInt(key, value)
         editor.apply()
     }
 
-    override fun getInt(key: String?, defValue: Int): Int {
+    override fun getIntCounters(key: String?, defValue: Int): Int {
         val prefs: SharedPreferences = context.getSharedPreferences(SP, 0)
         return prefs.getInt(key, defValue)
     }
 
-    override fun clearInt() {
+    override fun clearSettings() {
         sharedPreferences?.edit()
-            ?.putInt(SP, -1)
+            ?.putInt(SP, 0)
+            ?.putInt(COUNTER, 0)
             ?.putBoolean(IS_ENABLED, false)
+            ?.putBoolean(IS_FOLLOW, false)
             ?.apply()
+    }
+
+    override fun getBooleanFollow(key: String?): Boolean {
+        val prefs: SharedPreferences = context.getSharedPreferences(SP, 0)
+        return prefs.getBoolean(key, false)
+    }
+
+    override fun setBooleanFollow(key: String?, value: Boolean) {
+        val prefs: SharedPreferences = context.getSharedPreferences(SP, 0)
+        val editor: SharedPreferences.Editor = prefs.edit()
+        editor.putBoolean(key, value)
+        editor.apply()
     }
 
     private fun convertFromCarEntity(habits: List<CarEntity>): List<Car> {

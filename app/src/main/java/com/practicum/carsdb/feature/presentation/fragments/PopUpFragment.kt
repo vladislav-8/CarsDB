@@ -8,10 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.fragment.findNavController
+import com.practicum.carsdb.R
+import com.practicum.carsdb.core.utils.IS_FOLLOW
 import com.practicum.carsdb.core.utils.isEnabled
 import com.practicum.carsdb.databinding.FragmentPopUpBinding
 import com.practicum.carsdb.feature.presentation.viewmodels.PopUpViewModel
-import com.practicum.carsdb.feature.presentation.viewmodels.SettingsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PopUpFragment : DialogFragment() {
@@ -40,8 +42,9 @@ class PopUpFragment : DialogFragment() {
             dismiss()
         }
         binding.buyButton.setOnClickListener {
-            viewModel.clearSettings()
             isEnabled = true
+            viewModel.setBoolean(IS_FOLLOW, true)
+            findNavController().navigate(R.id.searchFragment)
         }
     }
 }

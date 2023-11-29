@@ -12,11 +12,22 @@ import org.koin.dsl.module
 val carModule = module {
 
     single<CarRepository> {
-        CarRepositoryImpl(database = get(), converter = get(), context = get(), sharedPreferences = get())
+        CarRepositoryImpl(
+            database = get(),
+            converter = get(),
+            context = get(),
+            sharedPreferences = get()
+        )
     }
 
     viewModel<SearchViewModel> {
-        SearchViewModel(carRepository = get(), getSettingsUseCase = get(), saveSettingsUseCase = get())
+        SearchViewModel(
+            carRepository = get(),
+            getSettingsUseCase = get(),
+            saveSettingsUseCase = get(),
+            getBoolUseCase = get(),
+            setBoolUseCase = get()
+        )
     }
 
     viewModel<NewCarViewModel> {
@@ -28,6 +39,6 @@ val carModule = module {
     }
 
     viewModel<PopUpViewModel> {
-        PopUpViewModel(clearSettingsUseCase = get())
+        PopUpViewModel(setBoolUseCase = get())
     }
 }

@@ -6,8 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.practicum.carsdb.feature.domain.models.Car
 import com.practicum.carsdb.feature.domain.repository.CarRepository
+import com.practicum.carsdb.feature.domain.usecase.GetBoolUseCase
 import com.practicum.carsdb.feature.domain.usecase.GetSettingsUseCase
 import com.practicum.carsdb.feature.domain.usecase.SaveSettingsUseCase
+import com.practicum.carsdb.feature.domain.usecase.SetBoolUseCase
 import com.practicum.carsdb.feature.presentation.models.CarState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -17,6 +19,8 @@ class SearchViewModel(
     private val carRepository: CarRepository,
     private val getSettingsUseCase: GetSettingsUseCase,
     private val saveSettingsUseCase: SaveSettingsUseCase,
+    private val getBoolUseCase: GetBoolUseCase,
+    private val setBoolUseCase: SetBoolUseCase
 ) : ViewModel() {
 
     var counterAddItem = 0
@@ -56,5 +60,13 @@ class SearchViewModel(
 
     fun getSettings(key: String, defValue: Int): Int {
         return getSettingsUseCase.invoke(key, defValue)
+    }
+
+    fun getBoolean(key: String): Boolean {
+        return getBoolUseCase.invoke(key)
+    }
+
+    fun setBoolean(key: String, defValue: Boolean) {
+        setBoolUseCase.invoke(key, defValue)
     }
 }

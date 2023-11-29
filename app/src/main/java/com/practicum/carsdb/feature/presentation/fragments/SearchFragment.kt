@@ -2,7 +2,6 @@ package com.practicum.carsdb.feature.presentation.fragments
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +13,7 @@ import com.practicum.carsdb.core.diffutil.CarAdapter
 import com.practicum.carsdb.core.utils.BUNDLE_KEY
 import com.practicum.carsdb.core.utils.COUNTER
 import com.practicum.carsdb.core.utils.IS_ENABLED
+import com.practicum.carsdb.core.utils.IS_FOLLOW
 import com.practicum.carsdb.core.utils.SP
 import com.practicum.carsdb.core.utils.isEnabled
 import com.practicum.carsdb.databinding.FragmentSearchBinding
@@ -162,35 +162,30 @@ class SearchFragment : Fragment() {
 
         viewModel.counterOpenItem++
         if (viewModel.counterOpenItem == 3) {
-            setBool(IS_ENABLED, false)
+           viewModel.setBoolean(IS_ENABLED, false)
             isEnabled = false
         }
         viewModel.saveSettings(COUNTER, viewModel.counterOpenItem)
 
     }
 
-    fun setBool(key: String?, value: Boolean) {
-        val prefs: SharedPreferences = requireContext().getSharedPreferences(SP, 0)
-        val editor: SharedPreferences.Editor = prefs.edit()
-        editor.putBoolean(key, value)
-        editor.apply()
-    }
-
-    fun getBool(key: String?): Boolean {
-        val prefs: SharedPreferences = requireContext().getSharedPreferences(SP, 0)
-        return prefs.getBoolean(key, false)
-    }
-
     override fun onResume() {
         super.onResume()
 
-        val counter = viewModel.getSettings(SP, -1)
-        searchBinding.fabAdd.isEnabled = counter < 2
-        val openCounter = viewModel.getSettings(COUNTER, -1)
-        getBool(IS_ENABLED)
+        if (!viewModel.getBoolean(IS_FOLLOW)) {
 
-        if (openCounter == 3 && counter == 2) {
-            PopUpFragment().show(childFragmentManager, TAG_POPUP)
+            val counter = viewModel.getSettings(SP, 0)
+            val openCounter = viewModel.getSettings(COUNTER, 0)
+
+            searchBinding.fabAdd.isEnabled = counter < 2
+            viewModel.getBoolean(IS_ENABLED)
+
+            if (openCounter == 3 && counter == 2) {
+                PopUpFragment().show(childFragmentManager, TAG_POPUP)
+            }
+        } else {
+            searchBinding.fabAdd.isEnabled
+            isEnabled = true
         }
     }
 
@@ -203,7 +198,6 @@ class SearchFragment : Fragment() {
         fun createArgs(car: Car): Bundle {
             return bundleOf(BUNDLE_KEY to car)
         }
-
         const val TAG_POPUP = "pop_up"
     }
 }

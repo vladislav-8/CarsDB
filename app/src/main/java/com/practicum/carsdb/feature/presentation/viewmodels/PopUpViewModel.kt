@@ -1,13 +1,13 @@
 package com.practicum.carsdb.feature.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
-import com.practicum.carsdb.feature.domain.usecase.ClearSettingsUseCase
+import com.practicum.carsdb.feature.domain.usecase.SetBoolUseCase
 
 class PopUpViewModel(
-    private val clearSettingsUseCase: ClearSettingsUseCase
+    private val setBoolUseCase: SetBoolUseCase
 ) : ViewModel() {
 
-    fun clearSettings() {
-        clearSettingsUseCase.invoke()
+    fun setBoolean(key: String, defValue: Boolean) {
+        setBoolUseCase.invoke(key, defValue)
     }
 }
