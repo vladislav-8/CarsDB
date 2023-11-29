@@ -8,12 +8,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import androidx.fragment.app.DialogFragment
+import com.practicum.carsdb.core.utils.isEnabled
 import com.practicum.carsdb.databinding.FragmentPopUpBinding
+import com.practicum.carsdb.feature.presentation.viewmodels.PopUpViewModel
+import com.practicum.carsdb.feature.presentation.viewmodels.SettingsViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PopUpFragment : DialogFragment() {
 
     private var _binding: FragmentPopUpBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel by viewModel<PopUpViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +40,8 @@ class PopUpFragment : DialogFragment() {
             dismiss()
         }
         binding.buyButton.setOnClickListener {
-
+            viewModel.clearSettings()
+            isEnabled = true
         }
     }
 }

@@ -3,6 +3,7 @@ package com.practicum.carsdb.core.di
 import com.practicum.carsdb.feature.data.impl.CarRepositoryImpl
 import com.practicum.carsdb.feature.domain.repository.CarRepository
 import com.practicum.carsdb.feature.presentation.viewmodels.NewCarViewModel
+import com.practicum.carsdb.feature.presentation.viewmodels.PopUpViewModel
 import com.practicum.carsdb.feature.presentation.viewmodels.SearchViewModel
 import com.practicum.carsdb.feature.presentation.viewmodels.SettingsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -24,5 +25,9 @@ val carModule = module {
 
     viewModel<SettingsViewModel> {
         SettingsViewModel(clearSettingsUseCase = get())
+    }
+
+    viewModel<PopUpViewModel> {
+        PopUpViewModel(clearSettingsUseCase = get())
     }
 }
