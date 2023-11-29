@@ -10,4 +10,11 @@ interface CarRepository {
     suspend fun deleteCar(car: Car)
 
     suspend fun saveImageToPrivateStorage(uri: String)
+
+    fun getIntCounters(key: String?, defValue: Int): Int
+    fun saveIntCounters(key: String?, value: Int)
+    fun clearSettings()
+
+    fun getBooleanFollow(key: String?): Boolean
+    fun setBooleanFollow(key: String?, value: Boolean)
 }

@@ -1,5 +1,13 @@
 package com.practicum.carsdb.core.utils
 
-
+//bundle
 const val BUNDLE_KEY = "CAR"
-const val GLOBAL_SUBS = 0
+
+//sp
+const val SP = "shared preferences"
+const val COUNTER = "int"
+const val IS_ENABLED = "boolean"
+const val IS_FOLLOW = "follow"
+var isEnabled = true
+
+

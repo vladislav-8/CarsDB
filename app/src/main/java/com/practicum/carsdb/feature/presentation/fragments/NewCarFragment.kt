@@ -69,7 +69,8 @@ class NewCarFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                 year = newCarBinding.yearEt.text.toString().toInt(),
                 imageUri = imageUri!!,
                 engine = newCarBinding.engineEt.text.toString().toFloat(),
-                date = date
+                date = date,
+                id = 0
             )
 
             imageUri?.let { viewModel.saveToLocalStorage(uri = it) }

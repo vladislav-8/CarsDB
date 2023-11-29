@@ -7,6 +7,7 @@ class ConverterDb {
 
     fun mapFromCarEntityToCar(from: CarEntity): Car {
         return Car(
+            id = from.id,
             name = from.name,
             date = from.date,
             engine = from.engine,
@@ -21,7 +22,8 @@ class ConverterDb {
             date = from.date,
             engine = from.engine,
             imageUri = from.imageUri,
-            year = from.year
+            year = from.year,
+            id = from.id
         )
     }
 }

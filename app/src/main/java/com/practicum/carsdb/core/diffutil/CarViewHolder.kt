@@ -28,7 +28,6 @@ class CarViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         Glide.with(itemView.context)
             .load(model.imageUri)
             .placeholder(R.drawable.ic_honda)
-            .centerCrop()
             .transform(RoundedCorners(itemView.resources.getDimensionPixelSize(R.dimen.cornerRadius)))
             .into(carImage)
     }
