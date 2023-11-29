@@ -10,4 +10,8 @@ interface CarRepository {
     suspend fun deleteCar(car: Car)
 
     suspend fun saveImageToPrivateStorage(uri: String)
+
+    fun getInt(key: String?, defValue: Int): Int
+    fun setInt(key: String?, value: Int)
+    fun clearInt()
 }

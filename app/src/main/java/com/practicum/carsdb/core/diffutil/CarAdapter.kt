@@ -7,6 +7,7 @@ import android.widget.Filterable
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.practicum.carsdb.R
+import com.practicum.carsdb.core.utils.isEnabled
 import com.practicum.carsdb.feature.domain.models.Car
 import java.util.Locale
 
@@ -33,8 +34,11 @@ class CarAdapter(
 
     override fun onBindViewHolder(holder: CarViewHolder, position: Int) {
         holder.bind(cars[position])
+        if (isEnabled)
         holder.itemView.setOnClickListener {
             clickListener.onCarClick(cars[holder.adapterPosition])
+        } else {
+            //
         }
         holder.itemView.setOnLongClickListener {
             longClick.onCarLongClick(cars[holder.adapterPosition])
@@ -65,7 +69,7 @@ class CarAdapter(
                 filteredList.addAll(cars)
             } else {
                 val filterPattern =
-                    constraint.toString().toLowerCase(Locale.ITALIAN).trim { it <= ' ' }
+                    constraint.toString().lowercase(Locale.ITALIAN).trim { it <= ' ' }
                 for (item in cars) {
                     if (item.name.lowercase(Locale.ITALIAN).contains(filterPattern)
                         || item.date.lowercase(Locale.ITALIAN).contains(filterPattern)

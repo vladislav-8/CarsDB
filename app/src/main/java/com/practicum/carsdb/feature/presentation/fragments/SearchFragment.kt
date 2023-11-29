@@ -1,26 +1,26 @@
 package com.practicum.carsdb.feature.presentation.fragments
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.room.util.findColumnIndexBySuffix
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.carsdb.R
 import com.practicum.carsdb.core.diffutil.CarAdapter
 import com.practicum.carsdb.core.utils.BUNDLE_KEY
+import com.practicum.carsdb.core.utils.COUNTER
+import com.practicum.carsdb.core.utils.IS_ENABLED
+import com.practicum.carsdb.core.utils.SP
+import com.practicum.carsdb.core.utils.isEnabled
 import com.practicum.carsdb.databinding.FragmentSearchBinding
 import com.practicum.carsdb.feature.domain.models.Car
 import com.practicum.carsdb.feature.presentation.models.CarState
 import com.practicum.carsdb.feature.presentation.viewmodels.SearchViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.Locale
 
 class SearchFragment : Fragment() {
 
@@ -48,21 +48,54 @@ class SearchFragment : Fragment() {
         initButtons()
         initObservers()
         addDbItems()
-
-        PopUpFragment().show(childFragmentManager, TAG_POPUP)
     }
 
     private fun addDbItems() {
         val car0: Car =
-            Car(name = "Honda Fit", R.drawable.ic_honda.toString(), 2021, 1.3f, "11/09/2021")
+            Car(
+                id = 1,
+                name = "Honda Fit",
+                R.drawable.ic_honda.toString(),
+                2021,
+                1.3f,
+                "11/09/2021"
+            )
         val car1: Car =
-            Car(name = "Honda Jazz", R.drawable.ic_honda.toString(), 2022, 1.5f, "11/09/2022")
+            Car(
+                id = 2,
+                name = "Honda Jazz",
+                R.drawable.ic_honda.toString(),
+                2022,
+                1.5f,
+                "11/09/2022"
+            )
         val car2: Car =
-            Car(name = "Honda Accord", R.drawable.ic_honda.toString(), 2023, 2.0f, "11/09/2023")
+            Car(
+                id = 3,
+                name = "Honda Accord",
+                R.drawable.ic_honda.toString(),
+                2023,
+                2.0f,
+                "11/09/2023"
+            )
         val car3: Car =
-            Car(name = "Honda Civic", R.drawable.ic_honda.toString(), 2024, 1.8f, "11/09/2024")
+            Car(
+                id = 4,
+                name = "Honda Civic",
+                R.drawable.ic_honda.toString(),
+                2024,
+                1.8f,
+                "11/09/2024"
+            )
         val car4: Car =
-            Car(name = "Honda CR-V", R.drawable.ic_honda.toString(), 2025, 2.0f, "11/09/2025")
+            Car(
+                id = 5,
+                name = "Honda CR-V",
+                R.drawable.ic_honda.toString(),
+                2025,
+                2.0f,
+                "11/09/2025"
+            )
         viewModel.addCar(car0)
         viewModel.addCar(car1)
         viewModel.addCar(car2)
@@ -89,6 +122,8 @@ class SearchFragment : Fragment() {
     private fun initButtons() {
         searchBinding.fabAdd.setOnClickListener {
             findNavController().navigate(R.id.newCarFragment)
+            viewModel.counterAddItem++
+            viewModel.saveSettings(SP, viewModel.counterAddItem)
         }
 
         searchBinding.settingsIv.setOnClickListener {
@@ -119,10 +154,44 @@ class SearchFragment : Fragment() {
     }
 
     private fun showCarItem(car: Car) {
+
         findNavController().navigate(
             R.id.carInformationFragment,
             createArgs(car)
         )
+
+        viewModel.counterOpenItem++
+        if (viewModel.counterOpenItem == 3) {
+            setBool(IS_ENABLED, false)
+            isEnabled = false
+        }
+        viewModel.saveSettings(COUNTER, viewModel.counterOpenItem)
+
+    }
+
+    fun setBool(key: String?, value: Boolean) {
+        val prefs: SharedPreferences = requireContext().getSharedPreferences(SP, 0)
+        val editor: SharedPreferences.Editor = prefs.edit()
+        editor.putBoolean(key, value)
+        editor.apply()
+    }
+
+    fun getBool(key: String?): Boolean {
+        val prefs: SharedPreferences = requireContext().getSharedPreferences(SP, 0)
+        return prefs.getBoolean(key, false)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val counter = viewModel.getSettings(SP, -1)
+        searchBinding.fabAdd.isEnabled = counter < 2
+        val openCounter = viewModel.getSettings(COUNTER, -1)
+        getBool(IS_ENABLED)
+
+        if (openCounter == 3 && counter == 2) {
+            PopUpFragment().show(childFragmentManager, TAG_POPUP)
+        }
     }
 
     override fun onDestroyView() {

@@ -1,6 +1,7 @@
 package com.practicum.carsdb.feature.data.impl
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Environment
@@ -8,6 +9,8 @@ import androidx.core.net.toUri
 import com.practicum.carsdb.core.db.converters.ConverterDb
 import com.practicum.carsdb.core.db.database.CarDatabase
 import com.practicum.carsdb.core.db.entity.CarEntity
+import com.practicum.carsdb.core.utils.IS_ENABLED
+import com.practicum.carsdb.core.utils.SP
 import com.practicum.carsdb.feature.domain.models.Car
 import com.practicum.carsdb.feature.domain.repository.CarRepository
 import kotlinx.coroutines.Dispatchers
@@ -20,7 +23,8 @@ import java.io.FileOutputStream
 class CarRepositoryImpl(
     private val database: CarDatabase,
     private val converter: ConverterDb,
-    private val context: Context
+    private val context: Context,
+    private val sharedPreferences: SharedPreferences?
 ) : CarRepository {
 
     override suspend fun getAllCars(): Flow<List<Car>> = flow {
@@ -51,6 +55,25 @@ class CarRepositoryImpl(
         BitmapFactory
             .decodeStream(inputStream)
             .compress(Bitmap.CompressFormat.JPEG, QUALITY_IMAGE, outputStream)
+    }
+
+    override fun setInt(key: String?, value: Int) {
+        val prefs: SharedPreferences = context.getSharedPreferences(SP, 0)
+        val editor: SharedPreferences.Editor = prefs.edit()
+        editor.putInt(key, value)
+        editor.apply()
+    }
+
+    override fun getInt(key: String?, defValue: Int): Int {
+        val prefs: SharedPreferences = context.getSharedPreferences(SP, 0)
+        return prefs.getInt(key, defValue)
+    }
+
+    override fun clearInt() {
+        sharedPreferences?.edit()
+            ?.putInt(SP, -1)
+            ?.putBoolean(IS_ENABLED, false)
+            ?.apply()
     }
 
     private fun convertFromCarEntity(habits: List<CarEntity>): List<Car> {

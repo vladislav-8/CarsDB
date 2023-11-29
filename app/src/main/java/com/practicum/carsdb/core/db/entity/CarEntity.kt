@@ -7,9 +7,10 @@ import java.io.Serializable
 
 @Entity(tableName = TABLE_NAME)
 data class CarEntity(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int,
     val name: String,
     val imageUri: String,
-    @PrimaryKey(autoGenerate = true)
     val year: Int,
     val engine: Float,
     val date: String
